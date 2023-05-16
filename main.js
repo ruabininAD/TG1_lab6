@@ -296,14 +296,14 @@ class RedBlackTree {
     if (node !== null) {
       this.inorderTraversal(node.left);
       console.log(node.key+ ": "+ node.value);
+      document.getElementById("story").value += node.key+ ": "+ node.value+ "\n"
       this.inorderTraversal(node.right);
     }}
 
   search(key) {
-    return this.searchNode(this.root, key);
-}
+    return this.searchNode(this.root, key);}
 
-searchNode(node, key) {
+  searchNode(node, key) {
   if (node === null || key === node.key) {
     return node;
   }
@@ -315,11 +315,8 @@ searchNode(node, key) {
   return this.searchNode(node.right, key);
   }
 
-
-
-removeValues() {
+  removeValues() {
   this.removeTraversal(this.root);}
-  
 
   removeTraversal(node) {
   if (node !== null) {

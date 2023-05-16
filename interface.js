@@ -29,9 +29,8 @@ function addForm () {
 
     dictionary.insert( key, value)
     console.log("ADD  "+ key+": " + value )
+    document.getElementById("story").value += "ADD  "+ key+": " + value+ "\n"
   }
-
-
 
 
 
@@ -45,15 +44,12 @@ function removeForm () {
 
     dictionary.remove(key)
     console.log("REM  "+ key)
+    document.getElementById("story").value += "REM  "+ key + "\n"
   }
 
 
 
-
-
-
-
-  function findForm () {
+function findForm () {
     var key = document.getElementById("find1").value;
     
     if (key == "") {
@@ -62,11 +58,15 @@ function removeForm () {
     } 
     
     console.log("FND  "+ key + "get =" + dictionary.get(key))
+    document.getElementById("story").value += "FND  "+ key + "get =" + dictionary.get(key)+ "\n"
   }
 
-  function allRemove(){
+
+
+function allRemove(){
     console.log('all remove')
     dictionary.removeValues()
+    document.getElementById("story").value += 'all remove'+ "\n"
   }
 
 
