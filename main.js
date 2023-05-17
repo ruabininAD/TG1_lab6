@@ -17,6 +17,7 @@ class Node {
 class RedBlackTree {
   constructor() {
     this.root = null;
+    this.allData = "" 
   }
 
   // Вспомогательный метод для вставки узла
@@ -213,6 +214,7 @@ class RedBlackTree {
 
   // Метод для удаления узла по ключу
   remove(key) {
+    if (key == ""){return}
     const node = this.search(key);
     if (node !== null) {
       this.removeNode(node);
@@ -290,18 +292,43 @@ class RedBlackTree {
   }
   
   printValues() {
-    this.inorderTraversal(this.root);}
+    this.inorderTraversal(this.root);
+  }
 
   inorderTraversal(node) {
     if (node !== null) {
       this.inorderTraversal(node.left);
-      console.log(node.key+ ": "+ node.value);
+      //console.log(node.key+ ": "+ node.value);
       document.getElementById("story").value += node.key+ ": "+ node.value+ "\n"
       this.inorderTraversal(node.right);
     }}
 
+  getValues(){
+    
+    const removeNewLine = (str) => {
+      if (str.endsWith("\n")) {
+        return str.slice(0, -1);
+      }
+      return str;
+    };
+
+
+    this.allData = ""
+    this.inorderTraversalforGet(this.root);
+    this.allData = removeNewLine(this.allData)
+    return this.allData
+  }
+
+  inorderTraversalforGet(node) {
+    if (node !== null) {
+      this.allData += node.key+ ": "+ node.value + "\n";
+      this.inorderTraversalforGet(node.left );
+      this.inorderTraversalforGet(node.right);
+    }}
+
   search(key) {
-    return this.searchNode(this.root, key);}
+    return this.searchNode(this.root, key);
+  }
 
   searchNode(node, key) {
   if (node === null || key === node.key) {
@@ -316,7 +343,8 @@ class RedBlackTree {
   }
 
   removeValues() {
-  this.removeTraversal(this.root);}
+  this.removeTraversal(this.root);
+}
 
   removeTraversal(node) {
   if (node !== null) {
