@@ -7,6 +7,7 @@ let count = 0
 
 //добавить значение в дерево
 function addForm () {
+
     var key = document.getElementById("input1").value;
     var value = document.getElementById("input2").value;
     if (key == "") {
@@ -16,12 +17,28 @@ function addForm () {
       alert ("Значение не указано");
       return false;
     }
+  
+    selectedFighter = getOption()
+
+    if (selectedFighter == "treeButton"){
+      
+      dictionary.insert( key, value)
+      console.log("ADD  "+ key+": " + value )
+      document.getElementById("story").value += "ADD   "+ key+": " + value+ "\n"
+    
+    } else if (selectedFighter == "hashButton") {
+      
+      hashtable.add( key, value)
+      console.log("ADD  "+ key+": " + value )
+      document.getElementById("story").value += "ADD hash "+ key+": " + value+ "\n"
+    
+
+    } else {
+      alert ("Боец не выбран");
+    }
 
 
-    dictionary.insert( key, value)
-    console.log("ADD  "+ key+": " + value )
-    document.getElementById("story").value += "ADD  "+ key+": " + value+ "\n"
-  }
+    }
 
 
 //удалить значение из дерева
@@ -33,9 +50,29 @@ function removeForm () {
       return false;
     } 
 
-    dictionary.remove(key)
-    console.log("REM  "+ key)
-    document.getElementById("story").value += "REM  "+ key + "\n"
+    
+
+
+    
+
+    selectedFighter = getOption()
+
+    if (selectedFighter == "treeButton"){
+      
+      dictionary.remove(key)
+      console.log("REM  "+ key)
+      document.getElementById("story").value += "REM  "+ key + "\n"
+
+    } else if (selectedFighter == "hashButton") {
+      
+      hashtable.remove(key)
+      console.log("REM hash "+ key)
+      document.getElementById("story").value += "REM hash "+ key + "\n"
+
+    } else {
+      alert ("Боец не выбран");
+    }
+
   }
 
 
@@ -48,21 +85,57 @@ function findForm () {
       return false;
     } 
     
-    console.log("FND  "+ key + "get =" + dictionary.get(key))
-    document.getElementById("story").value += "FND  "+ key + "get =" + dictionary.get(key)+ "\n"
+
+    selectedFighter = getOption()
+
+    if (selectedFighter == "treeButton"){
+      
+      console.log("FND  "+ key + "get =" + dictionary.get(key))
+      document.getElementById("story").value += "FND  "+ key + " => " + dictionary.get(key)+ "\n"
+
+    } else if (selectedFighter == "hashButton") {
+      
+      console.log("FND  "+ key + "get =" + dictionary.get(key))
+      document.getElementById("story").value += "FND hash "+ key + "  => " + hashtable.get(key)+ "\n"
+
+    } else {
+      alert ("Боец не выбран");
+    }
+
+
+
+    
   }
 
 
 //очистить дерево
 function allRemove(){
-    console.log('all remove')
+  selectedFighter = getOption()
+
+  if (selectedFighter == "treeButton"){
+    
+    console.log('Дерево очищенно ')
     dictionary.removeValues()
-    document.getElementById("story").value += 'all remove'+ "\n"
+    document.getElementById("story").value += 'tree removed'+ "\n"
+
+  } else if (selectedFighter == "hashButton") {
+    
+    console.log('Таблица очищенна ')
+    hashtable.removeAll()
+    document.getElementById("story").value += 'hashTable removed'+ "\n"
+
+  } else {
+    alert ("Боец не выбран");
+  }
+
+
+    
   }
 
 
 //Загрузить словарь из файла
 function upload(){
+
   allRemove()
   complement()
   //fixme 
@@ -71,17 +144,51 @@ function upload(){
 
 
 function printTextarea(){
-  dictionary.printValues()
-  console.log("print to Textare\n "+dictionary.getValues())
+
+  selectedFighter = getOption()
+
+    if (selectedFighter == "treeButton"){
+      
+      dictionary.printValues()
+      console.log("print to Textare\n "+dictionary.getValues())
+
+    } else if (selectedFighter == "hashButton") {
+      
+      hashtable.printValues()
+      console.log("print to Textare\n "+hashtable.getValues())
+
+    } else {
+      alert ("Боец не выбран");
+    }
+
+
+  
 }
 
 
 //Сохранить словарь в файл
 function save(){
-    document.getElementById("story").value +="IMPORT TXT\n"
-    textToFile (dictionary.getValues(), 'file.txt')
-    console.log("save to file file.txt\n "+dictionary.getValues())
+    
   
+    selectedFighter = getOption()
+
+    if (selectedFighter == "treeButton"){
+      
+      document.getElementById("story").value +="IMPORT TXT\n"
+      textToFile (dictionary.getValues(), 'tree.txt')
+      console.log("save to file tree.txt\n "+dictionary.getValues())
+
+    } else if (selectedFighter == "hashButton") {
+      
+
+      document.getElementById("story").value +="hash IMPORT TXT\n"
+      textToFile (hashtable.getValues(), 'hashT.txt')
+      console.log("save to file hashT.txt\n "+hashtable.getValues())
+
+
+    } else {
+      alert ("Боец не выбран");
+    }
   
   
 }
@@ -113,8 +220,11 @@ function textToFile (text, name) {
 
 //Дополнить  словарь из файла
 function complement(){
+
   var input = document.createElement('input');
   input.type = 'file';
+
+
 
   input.onchange = e => { 
 
@@ -132,14 +242,30 @@ function complement(){
 
       const pairs = splitString(reader.result);
 
-      pairs.forEach( finsert );
+
+      selectedFighter = getOption()
+
+      if (selectedFighter == "treeButton"){     pairs.forEach( finsertTree );
       
-      function finsert(pairr,_,_){
+      } else if (selectedFighter == "hashButton") { pairs.forEach( finsertHash );
+  
+      } else {        alert ("Боец не выбран");      }
+
+
+      
+      
+      function finsertTree(pairr,_,_){
         console.log("добавляем " + pairr+ "\n")
         dictionary.insert(pairr[0],pairr[1] ) 
       }
 
-      
+      function finsertHash(pairr,_,_){
+        console.log("добавляем " + pairr+ "\n")
+        hashtable.add(pairr[0],pairr[1] ) 
+      }
+
+    
+
     };
   
     reader.onerror = function() {
@@ -173,3 +299,14 @@ function splitString(text) {
 
 }
 
+function getOption(){
+  const options = document.getElementsByName("option");
+    let selectedFighter = "";
+    for (const option of options) {
+      if (option.checked) {
+        selectedFighter = option.value;
+        break;
+      }
+    }
+    return selectedFighter
+}
