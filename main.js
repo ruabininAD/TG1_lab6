@@ -40,8 +40,10 @@ class RedBlackTree {
       this.root = node;
     } else if (node.key < parent.key) {
       parent.left = node;
-    } else {
+    } else if (node.key > parent.key)  {
       parent.right = node;
+    } else  {
+      parent.value = node.value;
     }
 
     node.color = "red";
