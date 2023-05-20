@@ -17,7 +17,35 @@ class Node {
 class RedBlackTree {
   constructor() {
     this.root = null;
-    this.allData = "" 
+    this.allData = ""
+    this.struct = ""
+  }
+
+  
+  // Выводит структуру дерева в консоль
+  printStructure() {
+    this.struct = ""
+    this.traverseTree(this.root, "", true);
+    console.log( this.struct);
+    
+
+    document.getElementById("story").value = this.struct
+  }
+
+  // Рекурсивно проходит по дереву и собирает информацию о каждом узле
+  traverseTree(node, indent, isLast) {
+    if (node === null) {
+      return;
+    }
+
+    const marker = isLast ? "└──" : "├──";
+    const color = node.color === "red" ? "\x1b[31m" : "\x1b[30m"; // Красный цвет для красных узлов
+
+    this.struct += `${indent}${marker} ${color}${node.key + ": " + node.value}\x1b[0m\n`; // Добавляем информацию о текущем узле
+
+    const childIndent = indent + (isLast ? "    " : "│   ");
+    this.traverseTree(node.left, childIndent, false); // Рекурсивно обрабатываем левое поддерево
+    this.traverseTree(node.right, childIndent, true); // Рекурсивно обрабатываем правое поддерево
   }
 
   // Вспомогательный метод для вставки узла
@@ -426,7 +454,3 @@ class RedBlackTree {
 const dictionary = new RedBlackTree();
 
 
-// console.log(dictionary.get("apple")); // Выводит: A sweet fruit
-// console.log(dictionary.get("banana")); // Выводит: A yellow fruit
-// console.log(dictionary.get("orange")); // Выводит: A citrus fruit
-// console.log(dictionary.get("grape")); // Выводит: null
