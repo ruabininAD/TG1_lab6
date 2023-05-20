@@ -181,7 +181,7 @@ class RedBlackTree {
   // Вспомогательный метод для правого поворота
   rightRotate(node) {
     let leftChild = node.left;
-    node.left = left
+    node.left = leftChild.left
     if (leftChild.right !== null) {
         leftChild.right.parent = node;
       }
