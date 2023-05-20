@@ -39,9 +39,9 @@ class RedBlackTree {
     }
 
     const marker = isLast ? "└──" : "├──";
-    const color = node.color === "red" ? "\x1b[31m" : "\x1b[30m"; // Красный цвет для красных узлов
+    const color = node.color === "red" ? "[R]" : "[B]"; // Красный цвет для красных узлов
 
-    this.struct += `${indent}${marker} ${color}${node.key + ": " + node.value}\x1b[0m\n`; // Добавляем информацию о текущем узле
+    this.struct += `${indent}${marker} ${color}${node.key + ": " + node.value}\n`; // Добавляем информацию о текущем узле
 
     const childIndent = indent + (isLast ? "    " : "│   ");
     this.traverseTree(node.left, childIndent, false); // Рекурсивно обрабатываем левое поддерево

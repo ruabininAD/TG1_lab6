@@ -22,12 +22,29 @@ function addForm () {
 
     if (selectedFighter == "treeButton"){
       
+      if (dictionary.get(key) !=  undefined){
+        var isAdmin = confirm("ключ уже используется. заменить значение?");
+        if (isAdmin == false){
+         return
+        }
+      } 
+
+
+
       dictionary.insert( key, value)
       console.log("ADD  "+ key+": " + value )
       document.getElementById("story").value += "ADD   "+ key+": " + value+ "\n"
     
     } else if (selectedFighter == "hashButton") {
       
+      if (hashtable.get(key) !=  undefined){
+        var isAdmin = confirm("ключ уже используется. заменить значение?");
+        if (isAdmin == false){
+         return
+        }
+      } 
+
+
       hashtable.add( key, value)
       console.log("ADD  "+ key+": " + value )
       document.getElementById("story").value += "ADD hash "+ key+": " + value+ "\n"
@@ -59,12 +76,23 @@ function removeForm () {
 
     if (selectedFighter == "treeButton"){
       
+      if (dictionary.get(key) == undefined){
+        document.getElementById("story").value += " not REM  "+ key + ". key undefined\n"
+        return
+      } 
+
       dictionary.remove(key)
       console.log("REM  "+ key)
       document.getElementById("story").value += "REM  "+ key + "\n"
 
     } else if (selectedFighter == "hashButton") {
       
+      if (hashtable.get(key) == undefined){
+        document.getElementById("story").value += " not REM  "+ key + ". key undefined\n"
+        return
+      } 
+
+
       hashtable.remove(key)
       console.log("REM hash "+ key)
       document.getElementById("story").value += "REM hash "+ key + "\n"
