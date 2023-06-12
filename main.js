@@ -224,40 +224,46 @@ class RedBlackTree {
   }
 
   // Вспомогательный метод для удаления узла
-  removeNode(node) {
-    let y = node;
-    let yOriginalColor = y.color;
-    let x;
+ removeNode(node) {
+  let y = node;
+  let yOriginalColor = y.color;
+  let x;
 
-    if (node.left === null) {
-      x = node.right;
-      this.transplant(node, node.right);
-    } else if (node.right === null) {
-      x = node.left;
-      this.transplant(node, node.left);
-    } else {
-      y = this.minimum(node.right);
-      yOriginalColor = y.color;
-      x = y.right;
+  if (node.left === null) {
+    x = node.right;
+    this.transplant(node, node.right);
+  } else if (node.right === null) {
+    x = node.left;
+    this.transplant(node, node.left);
+  } else {
+    y = this.minimum(node.right);
+    yOriginalColor = y.color;
+    x = y.right;
 
-      if (y.parent === node) {
+    if (y.parent === node) {
+      if (x !== null) {
         x.parent = y;
-      } else {
-        this.transplant(y, y.right);
-        y.right = node.right;
+      }
+    } else {
+      this.transplant(y, y.right);
+      y.right = node.right;
+      if (y.right !== null) {
         y.right.parent = y;
       }
-
-      this.transplant(node, y);
-      y.left = node.left;
-      y.left.parent = y;
-      y.color = node.color;
     }
 
-    if (yOriginalColor === "black") {
+    this.transplant(node, y);
+    y.left = node.left;
+    y.left.parent = y;
+    y.color = node.color;
+  }
+
+  if (yOriginalColor === "black") {
+    if (x !== null) {
       this.deleteFixup(x);
     }
   }
+}
 
   /*
   перемещения узла в красно-черном дереве. 
